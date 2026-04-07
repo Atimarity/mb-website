@@ -5,12 +5,45 @@
 </head>
 <body>
   <h1>Register</h1>
-  <form action="/register" method="POST">
-    <label>Username: <input type="text" name="username" required></label><br>
-    <label>Password: <input type="password" name="password" required></label><br>
-    <label>Birthdate: <input type="date" name="birthdate" required></label><br>
+  <form id="form" action="/register" method="POST">
+    <label>Username: <input id="username" type="text" name="username" required></label><br>
+    <label>Password: <input id="password" type="password" name="password" required></label><br>
+    <label>Birthdate: <input id="birthdate" type="date" name="birthdate" required></label><br>
     <button type="submit">Register</button>
+    <label id="message"></label>
   </form>
   <p>Already have an account? <a href="/signin">Sign in</a></p>
 </body>
 </html>
+
+<script type="module">
+
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://mixbeats-website.onrender.com",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxkc2lreWplYnptd2JqaWVtd2dhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1MzYxNjEsImV4cCI6MjA5MTExMjE2MX0.vNmcxrYH7C2vyCWWiPLFJcOp0cAd5LCVdYoRzPIq_-4"
+);
+
+const form = document.getElementById("form");
+const message = document.getElementById("message");
+
+
+form.addEventListener("submit", async (e) => { e.preventDefault()
+
+const username = document.getElementById("username").value;
+const password = document.getElementById("password").value;
+const birthdate = document.getElementById("birthdate").value;
+
+const { data, error } = await supabase.form('users').insert([{username, password, birthdate}]);
+
+if (error){
+  message.textContent = "Error can't register";
+}
+else{
+    message.textContent = "Successfully registered!";
+}
+
+});
+
+</script>
