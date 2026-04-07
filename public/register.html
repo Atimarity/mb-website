@@ -35,7 +35,7 @@ const username = document.getElementById("username").value;
 const password = document.getElementById("password").value;
 const birthdate = document.getElementById("birthdate").value;
 
-const { data, error } = await supabase.form('users').insert([{username, password, birthdate}]);
+const { data, error } = await supabase.from('users').insert([{username, password, birthdate}]);
 
 if (error){
   message.textContent = "Error can't register";
